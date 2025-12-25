@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact Us</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+}
+
+/* NAVBAR */
+.navbar{
+    background:#2c3e50;
+    padding:15px;
+    text-align:center;
+}
+.navbar a{
+    color:white;
+    margin:0 15px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.navbar a:hover,.active{
+    color:#f1c40f;
+}
+
+/* CONTACT CONTAINER */
+.contact-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:60px 20px;
+}
+
+.contact-card{
+    background:white;
+    width:850px;
+    border-radius:20px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.25);
+    display:flex;
+    overflow:hidden;
+}
+
+/* LEFT INFO */
+.contact-info{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    width:40%;
+    padding:40px;
+}
+.contact-info h2{
+    margin-bottom:15px;
+}
+.contact-info p{
+    margin-bottom:25px;
+    font-size:14px;
+    line-height:1.6;
+}
+.info-box{
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+/* FORM */
+.contact-form{
+    width:60%;
+    padding:40px;
+}
+.contact-form h2{
+    color:#2c3e50;
+    margin-bottom:20px;
+}
+.search-box {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.search-box input {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+
+.contact-form input,
+.contact-form textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:14px;
+    outline:none;
+}
+.contact-form input:focus,
+.contact-form textarea:focus{
+    border-color:#764ba2;
+    box-shadow:0 0 0 2px rgba(118,75,162,0.2);
+}
+
+.contact-form button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+.contact-form button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .contact-card{
+        flex-direction:column;
+    }
+    .contact-info,
+    .contact-form{
+        width:100%;
+    }
+}
+.suggestions{
+    position:absolute;
+    top:40px;
+    left:0;
+    background:white;
+    width:100%;
+    border-radius:8px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    display:none;
+    z-index:10;
+}
+.suggestions div{
+    padding:8px 12px;
+    cursor:pointer;
+}
+.suggestions div:hover{
+    background:#f1f1f1;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="homepage.html">Home</a>
+    <a href="product.html">Product</a>
+    <a href="product2.html">Gallery</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products..."
+               onkeyup="searchProduct()" onclick="showSuggestions()">
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+</nav>
+
+<!-- CONTACT SECTION -->
+<div class="contact-container">
+    <div class="contact-card">
+
+        <!-- LEFT INFO -->
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>
+                Have questions about our products or services?
+                Feel free to contact us anytime. We are here to help you.
+            </p>
+
+            <div class="info-box">📍 Address: Gujarat, India</div>
+            <div class="info-box">📞 Phone: +91 63513 08521</div>
+            <div class="info-box">📧 Email: thakurabhishek3110@ourstore.com</div>
+        </div>
+
+        <!-- CONTACT FORM -->
+        <div class="contact-form">
+            <h2>Contact Us</h2>
+
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="text" placeholder="Subject" required>
+                <textarea rows="4" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script>
+const products = [
+    "Wireless Headphones",
+    "Smart Watch",
+    "Bluetooth Speaker",
+    "Gaming Mouse",
+    "Laptop Bag",
+    "Mobile Charger"
+];
+
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
+
+/* SEARCH SUGGESTIONS */
+function searchProduct() {
+    let input = searchInput.value.toLowerCase();
+    suggestionsBox.innerHTML = "";
+
+    if (input === "") {
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    products.forEach(p => {
+        if (p.toLowerCase().includes(input)) {
+            let div = document.createElement("div");
+            div.innerText = p;
+
+            div.onclick = () => {
+                // 🔥 Redirect to product page with search
+                window.location.href = "product.html?search=" + p;
+            };
+
+            suggestionsBox.appendChild(div);
+        }
+    });
+
+    suggestionsBox.style.display = "block";
+}
+
+function showSuggestions() {
+    if (searchInput.value !== "") {
+        suggestionsBox.style.display = "block";
+    }
+}
+</script>
+
+
+</body>
+</html>

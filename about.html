@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #2c3e50;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar a:hover,
+        .navbar .active {
+            color: #f1c40f;
+        }
+
+        .search-box {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .search-box input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+
+        /* CONTAINER */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        /* ABOUT CARD */
+        .about-card {
+            background: white;
+            width: 800px;
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .about-card h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .about-card p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .about-section {
+            margin-top: 25px;
+        }
+
+        .about-section h2 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+        .suggestions{
+    position:absolute;
+    top:40px;
+    left:0;
+    background:white;
+    width:100%;
+    border-radius:8px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    display:none;
+    z-index:10;
+}
+.suggestions div{
+    padding:8px 12px;
+    cursor:pointer;
+}
+.suggestions div:hover{
+    background:#f1f1f1;
+}
+
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="homepage.html" class="active">Home</a>
+    <a href="product.html">Product</a>
+    <a href="product2.html">Gallery</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products..."
+               onkeyup="searchProduct()" onclick="showSuggestions()">
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+</nav>
+
+<!-- ABOUT CONTENT -->
+<div class="container">
+    <div class="about-card">
+
+        <h1>About Us</h1>
+
+        <p>
+            Welcome to our website! We provide high-quality electronic products
+            with modern design, best performance and affordable prices.
+            Customer satisfaction is our top priority.
+        </p>
+
+        <p>
+            Our products are carefully designed to meet daily needs and
+            ensure durability, reliability and excellent user experience.
+        </p>
+
+        <div class="about-section">
+            <h2>Why Choose Us?</h2>
+            <ul>
+                <li>✔ High Quality Products</li>
+                <li>✔ Affordable Prices</li>
+                <li>✔ Trusted by Customers</li>
+                <li>✔ 24/7 Customer Support</li>
+            </ul>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>
+                Our mission is to deliver the best products with innovative
+                technology and excellent customer service.
+            </p>
+        </div>
+
+    </div>
+</div>
+<script>
+const products = [
+    "Wireless Headphones",
+    "Smart Watch",
+    "Bluetooth Speaker",
+    "Gaming Mouse",
+    "Laptop Bag",
+    "Mobile Charger"
+];
+
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
+
+/* SEARCH SUGGESTIONS */
+function searchProduct() {
+    let input = searchInput.value.toLowerCase();
+    suggestionsBox.innerHTML = "";
+
+    if (input === "") {
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    products.forEach(p => {
+        if (p.toLowerCase().includes(input)) {
+            let div = document.createElement("div");
+            div.innerText = p;
+
+            div.onclick = () => {
+                // 🔥 Redirect to product page with search
+                window.location.href = "product.html?search=" + p;
+            };
+
+            suggestionsBox.appendChild(div);
+        }
+    });
+
+    suggestionsBox.style.display = "block";
+}
+
+function showSuggestions() {
+    if (searchInput.value !== "") {
+        suggestionsBox.style.display = "block";
+    }
+}
+</script>
+
+
+</body>
+</html>

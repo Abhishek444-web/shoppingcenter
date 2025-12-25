@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Gallery</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #2c3e50;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar a:hover,
+        .navbar .active {
+            color: #f1c40f;
+        }
+
+        /* PAGE CONTAINER */
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 50px 20px;
+        }
+
+        /* PRODUCT CARD */
+        .product-card {
+            background: white;
+            width: 250px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-img img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .product-details {
+            padding: 15px;
+        }
+
+        .product-details h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .product-details p.price {
+            color: #27ae60;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-group button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .search-box {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .search-box input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+
+        .buy {
+            background: #e74c3c;
+        }
+
+        .cart {
+            background: #3498db;
+        }
+
+        .buy:hover {
+            background: #c0392b;
+        }
+
+        .cart:hover {
+            background: #2980b9;
+        }
+
+        @media screen and (max-width: 768px) {
+            .gallery-container {
+                gap: 20px;
+            }
+            .product-card {
+                width: 45%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .product-card {
+                width: 90%;
+            }
+        }
+        .suggestions{
+    position:absolute;
+    top:40px;
+    left:0;
+    background:white;
+    width:100%;
+    border-radius:8px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    display:none;
+    z-index:10;
+}
+.suggestions div{
+    padding:8px 12px;
+    cursor:pointer;
+}
+.suggestions div:hover{
+    background:#f1f1f1;
+}
+
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a href="homepage.html" class="active">Home</a>
+    <a href="product.html">Product</a>
+    <a href="product2.html">Gallery</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products..."
+               onkeyup="searchProduct()" onclick="showSuggestions()">
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+</nav>
+
+<!-- PRODUCT GALLERY -->
+<div class="gallery-container">
+
+    <!-- PRODUCT 1 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="headphone.jpeg" alt="Product 1">
+        </div>
+        <div class="product-details">
+            <h3>Wireless Headphones</h3>
+            <p class="price">₹2,999</p>
+            <div class="btn-group">
+            <button class="cart" 
+            onclick="goCart('Wireless Headphones','2999','headphone.jpeg')">
+            Add to Cart
+            </button>
+
+            <button class="buy" 
+            onclick="goBuy('Wireless Headphones','2999','headphone.jpeg')">
+            Buy Now
+            </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PRODUCT 2 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="watch.jpeg" alt="Product 2">
+        </div>
+        <div class="product-details">
+            <h3>Smart Watch</h3>
+            <p class="price">₹1,499</p>
+            <div class="btn-group">
+                <button class="cart" 
+            onclick="goCart('Smart watch','1,499','watch.jpeg')">
+            Add to Cart
+            </button>
+
+            <button class="buy" 
+            onclick="goBuy('Smart watch','1,499','watch.jpeg')">
+            Buy Now
+            </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT 3 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="speaker.jpeg" alt="Product 3">
+        </div>
+        <div class="product-details">
+            <h3>Bluetooth Speaker</h3>
+            <p class="price">₹999</p>
+            <div class="btn-group">
+                <button class="cart" 
+            onclick="goCart('Bluetooth speaker','999','speaker.jpeg')">
+            Add to Cart
+            </button>
+
+            <button class="buy" 
+            onclick="goBuy('Bluetooth speaker','999','speaker.jpeg')">
+            Buy Now
+            </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT 4 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="mouse.jpeg" alt="Product 4">
+        </div>
+        <div class="product-details">
+            <h3>Gaming Mouse</h3>
+            <p class="price">₹799</p>
+            <div class="btn-group">
+                <button class="cart" 
+            onclick="goCart('Gaming Mouse','799','mouse.jpeg')">
+            Add to Cart
+            </button>
+
+            <button class="buy" 
+            onclick="goBuy('Gaming Mouse','799','mouse.jpeg')">
+            Buy Now
+            </button>
+            </div>
+            </div>
+    </div>
+
+    <!-- PRODUCT 5 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="charger.jpeg" alt="Product 5">
+        </div>
+        <div class="product-details">
+            <h3>Wireless Charger</h3>
+            <p class="price">₹499</p>
+            <div class="btn-group">
+                <button class="cart" 
+            onclick="goCart('Wireless Charger','499','charger.jpeg')">
+            Add to Cart
+            </button>
+
+            <button class="buy" 
+            onclick="goBuy('Wireless Charger','499','charger.jpeg')">
+            Buy Now
+            </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add more products same way -->
+</div>
+<script>
+const products = [
+    "Wireless Headphones",
+    "Smart Watch",
+    "Bluetooth Speaker",
+    "Gaming Mouse",
+    "Laptop Bag",
+    "Mobile Charger"
+];
+
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
+
+/* SEARCH SUGGESTIONS */
+function searchProduct() {
+    let input = searchInput.value.toLowerCase();
+    suggestionsBox.innerHTML = "";
+
+    if (input === "") {
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    products.forEach(p => {
+        if (p.toLowerCase().includes(input)) {
+            let div = document.createElement("div");
+            div.innerText = p;
+
+            div.onclick = () => {
+                // 🔥 Redirect to product page with search
+                window.location.href = "product.html?search=" + p;
+            };
+
+            suggestionsBox.appendChild(div);
+        }
+    });
+
+    suggestionsBox.style.display = "block";
+}
+
+function showSuggestions() {
+    if (searchInput.value !== "") {
+        suggestionsBox.style.display = "block";
+    }
+}
+
+function goBuy(name, price, img){
+    window.location.href = `buy.html?name=${encodeURIComponent(name)}&price=${price}&img=${encodeURIComponent(img)}`;
+}
+
+function goCart(name, price, img){
+    window.location.href = `cart.html?name=${encodeURIComponent(name)}&price=${price}&img=${encodeURIComponent(img)}`;
+}
+
+
+</script>
+
+</body>
+</html>

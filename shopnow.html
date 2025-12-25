@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Gallery</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+}
+
+/* NAVBAR */
+.navbar{
+    background:#2c3e50;
+    padding:15px;
+    text-align:center;
+}
+.navbar a{
+    color:white;
+    margin:0 15px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.navbar a:hover,.active{
+    color:#f1c40f;
+}
+
+/* GALLERY */
+.gallery-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:25px;
+    padding:40px;
+}
+
+.product-card{
+    background:white;
+    width:250px;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+    transition:.3s;
+}
+.product-card:hover{
+    transform:translateY(-6px);
+}
+
+.product-img{
+    height:180px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f2f2f2;
+}
+.product-img img{
+    width:80%;
+}
+
+.product-details{
+    padding:15px;
+}
+.product-details h3{
+    font-size:16px;
+    margin-bottom:6px;
+    color:#2c3e50;
+}
+.company{
+    font-size:13px;
+    color:#7f8c8d;
+}
+.price{
+    color:#27ae60;
+    font-weight:bold;
+    margin:8px 0;
+}
+.search-box {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .search-box input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+
+.btn-group{
+    display:flex;
+    justify-content:space-between;
+}
+button{
+    border:none;
+    padding:8px 12px;
+    border-radius:20px;
+    color:white;
+    cursor:pointer;
+    font-size:13px;
+}
+.buy{background:#e74c3c;}
+.cart{background:#3498db;}
+.suggestions{
+    position:absolute;
+    top:40px;
+    left:0;
+    background:white;
+    width:100%;
+    border-radius:8px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    display:none;
+    z-index:10;
+}
+.suggestions div{
+    padding:8px 12px;
+    cursor:pointer;
+}
+.suggestions div:hover{
+    background:#f1f1f1;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="homepage.html" class="active">Home</a>
+    <a href="product.html">Product</a>
+    <a href="product2.html">Gallery</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products..."
+               onkeyup="searchProduct()" onclick="showSuggestions()">
+        <div class="suggestions" id="suggestions"></div>
+    </div>
+</nav>
+
+<div class="gallery-container" id="gallery"></div>
+
+<script>
+const productData = {
+    Samsung: ["Galaxy S23", "Galaxy S22", "Galaxy A54", "Galaxy M14", "Galaxy Buds 2"],
+    Apple: ["iPhone 15", "iPhone 14", "iPad Pro", "MacBook Air M2", "Apple Watch SE"],
+    Sony: ["WH-1000XM5", "Alpha A7", "PlayStation 5", "Bravia X80K", "Sony SRS-XB13"],
+    Boat: ["Airdopes 141", "Rockerz 255", "Stone 1200", "Watch Xtend", "BassHeads 100"],
+    MI: ["Redmi Note 12", "Mi Band 7", "Mi TV 5A", "Mi Power Bank", "Mi Notebook"],
+    Dell: ["Inspiron 15", "XPS 13", "Alienware M15", "Dell Monitor", "Dell Keyboard"],
+    HP: ["Pavilion 14", "Victus Gaming", "HP Printer 1212", "HP Monitor", "HP Mouse"],
+    Asus: ["ROG Strix", "TUF Gaming", "ZenBook 14", "Asus Router", "Asus Monitor"],
+    Lenovo: ["ThinkPad E14", "IdeaPad Slim", "Yoga Tablet", "Lenovo Mouse", "Lenovo Desktop"],
+    Realme: ["Realme GT Neo", "Realme Buds Air", "Realme Watch", "Realme TV", "Realme Pad"]
+};
+
+const gallery = document.getElementById("gallery");
+let count = 0;
+
+Object.keys(productData).forEach(company => {
+    for (let i = 0; i < 50; i++) {   // 10 companies × 50 = 500 products
+        let model = productData[company][i % productData[company].length];
+        let price = 49999 + (count * 11);
+
+        gallery.innerHTML += `
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://via.placeholder.com/150?text=${company}">
+            </div>
+            <div class="product-details">
+                <h3>${company} ${model}</h3>
+                <div class="company">${company}</div>
+                <div class="price">₹${price}</div>
+                <div class="btn-group">
+                    <button class="buy">Buy</button>
+                    <button class="cart">Cart</button>
+                </div>
+            </div>
+        </div>
+        `;
+        count++;
+    }
+});
+
+const products = [
+    "Wireless Headphones",
+    "Smart Watch",
+    "Bluetooth Speaker",
+    "Gaming Mouse",
+    "Laptop Bag",
+    "Mobile Charger"
+];
+
+const searchInput = document.getElementById("searchInput");
+const suggestionsBox = document.getElementById("suggestions");
+
+/* SEARCH SUGGESTIONS */
+function searchProduct() {
+    let input = searchInput.value.toLowerCase();
+    suggestionsBox.innerHTML = "";
+
+    if (input === "") {
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    products.forEach(p => {
+        if (p.toLowerCase().includes(input)) {
+            let div = document.createElement("div");
+            div.innerText = p;
+
+            div.onclick = () => {
+                // 🔥 Redirect to product page with search
+                window.location.href = "product.html?search=" + p;
+            };
+
+            suggestionsBox.appendChild(div);
+        }
+    });
+
+    suggestionsBox.style.display = "block";
+}
+
+function showSuggestions() {
+    if (searchInput.value !== "") {
+        suggestionsBox.style.display = "block";
+    }
+}
+</script>
+
+
+
+</body>
+</html>
